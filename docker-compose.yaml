@@ -1,0 +1,49 @@
+version: '3.9'
+services:
+  sng_{service}_micro:
+    image: sng_{service}_ms:latest
+    container_name: sng_{service}_micro
+    build: .
+    ports:
+      - 9002:8000
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - sng_{service}_db
+    networks:
+      - sng_tier
+
+  sng_{service}_db:
+    container_name: sng_{service}_db
+    image: mariadb:10.5.8
+    restart: always
+    environment:
+      MYSQL_DATABASE: sng_{service}_micro
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/www/html/storage/dbdata
+    networks:
+      - sng_tier
+
+  sng_{service}_pma:
+    container_name: sng_{service}_pma
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '9082:80'
+    depends_on:
+      - sng_{service}_db
+    links:
+      - sng_{service}_db:sng_{service}_db
+    environment:
+      PMA_HOSTS: sng_{service}_db
+      UPLOAD_LIMIT: 300M
+      PMA_PORT: 3306
+      PMA_PMADB: sng_{service}_micro
+    networks:
+      - sng_tier
+
+networks:
+  sng_tier:
+    driver: bridge
