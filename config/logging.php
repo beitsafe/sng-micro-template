@@ -119,5 +119,11 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'kafka' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/kafka.log'),
+            'days'   => 7,
+        ],
     ],
 ];

@@ -27,7 +27,7 @@ use Illuminate\Routing\Controller as BaseController;
  * )
  *
  * @OA\Server(
- *     url="http://scan-n-go-975358305.ap-southeast-2.elb.amazonaws.com/api/v1/scan",
+ *     url="https://api.scanngo.com.au/api/v1/scan",
  *     description="STAGING",
  * )
  *
